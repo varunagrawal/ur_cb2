@@ -1,7 +1,7 @@
-"""A basic script to demonstrate usage of the cb2_receive module.
+"""A basic script to move to stored points for a cb2 robot.
 
-There are a few lines which are commented out. Uncomment these lines to see a
-demonstration of the parallel nature of the cb2_receive module.
+Basic Usage: Store points using cb2_store_points.py (cb2-record from the
+terminal). Run this script, with commandline args.
 
 The MIT License (MIT)
 
@@ -26,22 +26,22 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import socket
-import time
-from contextlib import closing
-import cb2_receive
 import argparse
+import cb2_robot
+import json
+import time
 
 
 def main():
     # Parse in arguments
     parser = argparse.ArgumentParser(
         description='Save Points',
-        epilog="This software is designed to show the status of a UR CB2 Robot."
-               " Simply run the program with appropriate arguments and it will"
-               " print useful information about the robot to the terminal."
-               " If information is not printed nicely, make your terminal "
-               "larger")
+        epilog="This software is designed to move a cb2 robot to points which "
+               "have been previously saved.")
+
+    parser.add_argument("-f", "--file", metavar="file", type=str,
+                        help='The file to read data from.',
+                        default="cb2points.json")
 
     parser.add_argument("--ip", metavar="ip", type=str,
                         help='IP address of the robot', default="192.168.1.100")
@@ -53,16 +53,19 @@ def main():
     host = args.ip    # The remote host
     port = args.port  # The same port as used by the server
 
-    with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM))\
-            as robot_socket:
-        robot_socket.connect((host, port))
-        with cb2_receive.URReceiver(robot_socket, True) as my_ur_receiver:
-            my_ur_receiver.start()
-            # some_num = 0
-            while True:
-                # print "\n\n" + str(some_num) + "\n\n"
-                # some_num += 1
-                time.sleep(.25)
+    with open(args.file, 'r') as f:
+        data = json.load(f)
+    write_time = data['time']
+    points = data['points']
+    print 'read in {} points, written at: {}'.format(len(points.keys()),
+                                                     write_time)
+    with cb2_robot.URRobot(host, port) as robot:
+        for number in sorted([int(x) for x in points.keys()]):
+            robot.add_goal(cb2_robot.Goal(points[str(number)]['joint'], False,
+                                          'joint'))
+            # TODO: this appears to skip the first point!
+            robot.move_on_stop()
+            print 'Beginning move: {}'.format(number)
 
 if __name__ == "__main__":
     main()
