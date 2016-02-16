@@ -52,7 +52,6 @@ class Spline():
         """
         # get the knot points
         tckp, u = sci.splprep([points[0], points[1], points[2]], s=self.smoothness, k=self.order, nest=self.nest)
-        tckp, u = sci.splprep([points[0], points[1], points[2]], s=self.smoothness, k=self.order, nest=self.nest)
         #tck, fp, ler, msg = sci.bisplrep(path[0], path[1], path[2], kx=self.order, ky=self.order, s=self.smoothness)
         
         # evaluate the spline, including interpolated points
