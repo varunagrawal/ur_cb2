@@ -1,3 +1,8 @@
+**This is now housed on the public team site:**
+https://github.com/IRIM-Technology-Transition-Lab/ur_cb2
+
+
+
 UR-Sockets:
 ===========
 Testing and working with socket connections to the UR
