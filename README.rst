@@ -1,16 +1,14 @@
-**This is now housed on the public team site:**
-https://github.com/IRIM-Technology-Transition-Lab/ur_cb2
-
-
+.. toctree::
+   :maxdepth: 2
 
 UR-Sockets:
 ===========
-Testing and working with socket connections to the UR
 
-License:
---------
-You are not granted a license of any kind:
-Copyright (c) 2016 GTRC. All rights reserved.
+.. image:: https://readthedocs.org/projects/ur-cb2/badge/?version=latest
+    :target: http://ur-cb2.readthedocs.org/en/latest/?badge=latest
+    :alt: Documentation Status
+
+Testing and working with socket connections to the UR
 
 What is Provided:
 -----------------
@@ -53,7 +51,7 @@ Examples:
 
 How To Setup:
 -------------
-#. Install the packages: `python setup.py install`
+#. Install the packages: `python setup.py install` or `pip install ur_cb2`
 #. Go to the home screen of PolyScope
 #. Click on `SETUP Robot`
 #. Click on `Setup NETWORK`
@@ -64,7 +62,7 @@ How To Setup:
    command line)
 #. Once everything is setup, you can import by: `import ur_cb2`,
    `import ur_cb2.receive`, and `import ur_cb2.send`
-
+>>>>>>> e0e5e3616b8cd696869cb672c337604842bc64b9
 License:
 --------
 The MIT License (MIT)
